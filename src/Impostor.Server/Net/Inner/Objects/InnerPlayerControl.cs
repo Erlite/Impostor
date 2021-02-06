@@ -249,6 +249,7 @@ namespace Impostor.Server.Net.Inner.Objects
                         }
                     }
 
+                    await _eventManager.CallAsync(new PlayerNameChangedEvent(_game, sender, this, PlayerInfo.PlayerName, name));
                     PlayerInfo.PlayerName = name;
                     PlayerInfo.RequestedPlayerName = null;
                     break;
