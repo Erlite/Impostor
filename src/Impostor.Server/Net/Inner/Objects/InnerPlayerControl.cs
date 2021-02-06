@@ -249,7 +249,14 @@ namespace Impostor.Server.Net.Inner.Objects
                         }
                     }
 
-                    await _eventManager.CallAsync(new PlayerNameChangedEvent(_game, sender, this, PlayerInfo.PlayerName, name));
+                    var playerClient =
+                        _game.Players.FirstOrDefault(p => p.Character != null && p.Character.PlayerId == PlayerInfo.PlayerId);
+
+                    if (playerClient != null)
+                    {
+                        await _eventManager.CallAsync(new PlayerNameChangedEvent(_game, playerClient, this, PlayerInfo.PlayerName, name));
+                    }
+
                     PlayerInfo.PlayerName = name;
                     PlayerInfo.RequestedPlayerName = null;
                     break;
